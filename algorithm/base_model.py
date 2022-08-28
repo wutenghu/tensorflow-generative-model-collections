@@ -1,7 +1,7 @@
 # Copyright (c) 2009 IW.
 # All rights reserved.
 #
-# Author: wutenghu <wutenghu@pin-dao.cn>
+# Author: wutenghu <wutenghu.ubc@gmail.com>
 # Date:   2022-08-27
 
 import tensorflow as tf

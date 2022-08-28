@@ -1,25 +1,15 @@
 # Copyright (c) 2009 IW.
 # All rights reserved.
 #
-# Author: wutenghu <wutenghu@pin-dao.cn>
+# Author: wutenghu <wutenghu.ubc@gmail.com>
 # Date:   2022-08-27
 
-import os
-import datetime
-
-import IPython
-import IPython.display
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import tensorflow as tf
-from tensorflow.keras.layers import LSTM, Bidirectional
-
-from algorithm.base_model import Baseline
 from algorithm.cnn_bilstm_attention_model import attention_model
-from data_adaptor.data_adaptor_helper import WindowGenerator
 
 mpl.rcParams['figure.figsize'] = (8, 6)
 mpl.rcParams['axes.grid'] = False
