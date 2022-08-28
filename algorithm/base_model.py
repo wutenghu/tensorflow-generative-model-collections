@@ -4,16 +4,12 @@
 # Author: wutenghu <wutenghu.ubc@gmail.com>
 # Date:   2022-08-27
 
-import tensorflow as tf
+from tensorflow.keras.layers import Input, Dense, Flatten
+from tensorflow.keras.models import Model
 
 
-class Baseline(tf.keras.Model):
-    def __init__(self, label_index=None):
-        super().__init__()
-        self.label_index = label_index
-
-    def call(self, inputs):
-        if self.label_index is None:
-            return inputs
-        result = inputs[:, :, self.label_index]
-        return result[:, :, tf.newaxis]
+def linear_model(time_steps, input_dims):
+    inputs = Input(shape=(time_steps, input_dims))
+    x = Flatten()(inputs)
+    output = Dense(1)(x)
+    return Model(inputs=[inputs], outputs=output)
