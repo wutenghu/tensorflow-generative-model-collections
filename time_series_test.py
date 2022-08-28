@@ -99,22 +99,22 @@ def main():
     df = df.dropna()
     date_time = pd.to_datetime(df.pop('trade_date'), format='%Y%m%d')
 
-    plot_figure(date_time=date_time, df=df)
+    # plot_figure(date_time=date_time, df=df)
 
     column_indices = {name: i for i, name in enumerate(df.columns)}
     print(column_indices)
 
-    # train_df, val_df, test_df = data_process(df, date_time)
-    print(df.columns)
-    print(df.shape)
+    train_df, val_df, test_df = data_process(df, date_time)
+    print(train_df.columns)
+    print(train_df.shape)
 
-    INPUT_DIMS = 6
-    TIME_STEPS = 60
+    INPUT_DIMS = 8
+    TIME_STEPS = 5
     lstm_units = 64
 
     # 归一化
-    X = np.array(df)
-    y = df['month_return'].values.reshape(len(X), 1)
+    X = np.array(train_df)
+    y = train_df['month_return'].values.reshape(len(X), 1)
 
     train_X, _ = create_dataset(X, TIME_STEPS)
     _, train_Y = create_dataset(y, TIME_STEPS)
@@ -128,17 +128,26 @@ def main():
     model.compile(optimizer='adam', loss='mse')
     model.fit(
             [train_X], train_Y,
-            epochs=10,
+            epochs=50,
             batch_size=64,
             validation_split=0.1)
 
-    pred_Y = model.predict([train_X], verbose=1)
+    X = np.array(test_df)
+    y = test_df['month_return'].values.reshape(len(X), 1)
 
-    print(pred_Y.flatten())
-    print(train_Y.flatten())
+    test_X, _ = create_dataset(X, TIME_STEPS)
+    _, test_Y = create_dataset(y, TIME_STEPS)
 
+    pred_Y = model.predict([test_X], verbose=1)
     print(pred_Y.shape)
-    print(train_Y.shape)
+    print(test_Y.shape)
+
+    plt.figure(figsize=[12, 6])
+    X_idx = range(len(test_Y))
+    plt.plot(X_idx, test_Y, label='true value')
+    plt.plot(X_idx, pred_Y, label='predict value')
+    plt.legend(['true value', 'predict value'])
+    plt.show()
 
     # m.save("./model.h5")
     # np.save("normalize.npy",normalize)
