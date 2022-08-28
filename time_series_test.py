@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 from algorithm.cnn_bilstm_attention_model import attention_model
+from algorithm.bilstm_model import recurrent_model
 
 mpl.rcParams['figure.figsize'] = (8, 6)
 mpl.rcParams['axes.grid'] = False
@@ -110,7 +111,7 @@ def main():
     _, train_Y = create_dataset(y, TIME_STEPS)
 
     print(train_X.shape, train_Y.shape)
-    model = attention_model(
+    model = recurrent_model(
             lstm_units=lstm_units,
             time_steps=TIME_STEPS,
             input_dims=INPUT_DIMS)
